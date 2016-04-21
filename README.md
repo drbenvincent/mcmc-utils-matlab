@@ -1,11 +1,13 @@
 # mcmc-utils-matlab
-A set of handy utilities and plotting functions for dealing with MCMC in Matlab.
+A set of handy utilities and plotting functions for dealing with MCMC in Matlab. This package is under development. Feel very free to submit Issues for bug reports and feature requests. Also see the Issues for upcoming fixes and new features.
 
 ## Importing the package
-You can import with the command
+
+Make sure to set the `pathOfPackage` NOT to the `+mcmc` package itself, but it's parent folder.
 
 ````matlab
-import('mcmc')
+pathToPackage = '~/git-local/mcmc-utils-matlab';
+addpath(genpath(pathToPackage))
 ````
 
 One of the first things to do is to call `mcmc.setPlotTheme`, which will change default Matlab plot options to something a bit more stylish. You can just call `mcmc.setPlotTheme()` without any options, to use defaults, or you can supply name-value pairs, such as:
