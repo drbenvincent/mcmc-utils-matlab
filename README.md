@@ -6,8 +6,8 @@ A set of handy utilities and plotting functions for dealing with MCMC in Matlab.
 Make sure to set the `pathOfPackage` NOT to the `+mcmc` package itself, but it's parent folder.
 
 ````matlab
-pathToPackage = '~/git-local/mcmc-utils-matlab';
-addpath(genpath(pathToPackage))
+pathOfPackage = '~/git-local/mcmc-utils-matlab';
+addpath(pathOfPackage)
 ````
 
 One of the first things to do is to call `mcmc.setPlotTheme`, which will change default Matlab plot options to something a bit more stylish. You can just call `mcmc.setPlotTheme()` without any options, to use defaults, or you can supply name-value pairs, such as:
