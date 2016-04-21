@@ -12,10 +12,15 @@ mcmc.setPlotTheme('fontsize',16, 'linewidth',2)
 
 
 %% generate faux mcmc data
-mu = [1 -1]; Sigma = [.9 .4; .4 .3];
+mu = [1 -1 0]; 
+Sigma = [1 .4 .8;...
+	.4 1 .3;...
+	.8 .3 1];
 samples = mvnrnd(mu, Sigma, 10^5);
 %plot(samples(:,1),samples(:,2),'.');
-variableNames={'retroflux units, $\rho$','awesomeness, $\alpha$'};
+variableNames={'retroflux units, $\rho$',...
+	'awesomeness, $\alpha$',...
+	'undulation, $\mu$'};
 
 
 
@@ -65,7 +70,7 @@ axis(tempAxisLims)
 figure(3), clf
 tri = mcmc.TriPlotSamples(samples,...
 	variableNames,...
-	'figSize', 15);
+	'figSize', 20);
 
 
 
