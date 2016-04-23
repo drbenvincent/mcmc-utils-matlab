@@ -2,8 +2,17 @@
 A set of handy utilities and plotting functions for dealing with MCMC in Matlab. This package is under development. Feel very free to submit Issues for bug reports and feature requests. Also see the Issues for upcoming fixes and new features.
 
 
+## Installation
 
-## Importing the package
+In Matlab, navigate to the install location, then type this into the Matlab command window:
+
+    system('git clone --depth=1 git://github.com/drbenvincent/mcmc-utils-matlab.git')
+
+From time to time, this code might get updated. To make sure you have the latest version, then navigate to the directory of the repository in Matlab and type:
+
+    system('git pull')
+
+## Using the package in Matlab
 
 Make sure to set the `pathOfPackage` NOT to the `+mcmc` package itself, but it's parent folder.
 
