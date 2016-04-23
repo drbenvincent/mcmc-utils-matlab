@@ -12,7 +12,7 @@ mcmc.setPlotTheme('fontsize',16, 'linewidth',2)
 
 
 %% generate faux mcmc data
-mu = [1 -1 0]; 
+mu = [1 -1 0];
 Sigma = [1 .4 .8;.4 1 .3;.8 .3 1];
 samples = mvnrnd(mu, Sigma, 10^5);
 %plot(samples(:,1),samples(:,2),'.');
@@ -69,6 +69,60 @@ figure(3), clf
 tri = mcmc.TriPlotSamples(samples,...
 	variableNames,...
 	'figSize', 20);
+
+
+%% PosteriorPrediction1D
+
+% example function y=mx+c
+%fh = @(x,params) params(:,1).*x + params(:,2);
+fh = @(x,params) bsxfun(@plus, bsxfun(@times,params(:,1), x), params(:,2));
+
+
+
+% Generate faux MCMC samples
+nSamples=10^5;
+chocolate=randn([nSamples 1])+20;	% intercept
+happines=randn([nSamples 1])+2;	% slope
+samples=[happines chocolate]; % samples is of size [nSamples x nParams]
+variableNames={'chocolate',...
+	'happines, $\Omega$'};
+
+% Generate faux x,y data
+xdata=linspace(-5,20,5);
+ydata=fh(xdata,[2 20]) + randn(size(xdata))*5;
+
+% finally, create the object
+figure(4), clf
+subplot(1,3,1)
+pp1 = mcmc.PosteriorPrediction1D(fh,...
+	'xInterp',linspace(-5,20,400),...
+	'samples',samples,...
+	'xData',xdata,...
+	'yData',ydata,...
+	'ciType','examples',...
+	'variableNames', variableNames);
+title('ciType=''examples''')
+
+subplot(1,3,2)
+pp2 = mcmc.PosteriorPrediction1D(fh,...
+	'xInterp',linspace(-5,20,400),...
+	'samples',samples,...
+	'xData',xdata,...
+	'yData',ydata,...
+	'ciType','range',...
+	'variableNames', variableNames);
+title('ciType=''range''')
+
+subplot(1,3,3)
+pp3 = mcmc.PosteriorPrediction1D(fh,...
+	'xInterp',linspace(-5,20,400),...
+	'samples',samples,...
+	'xData',xdata,...
+	'yData',ydata,...
+	'ciType','probMass',...
+	'variableNames', variableNames);
+title('ciType=''probMass''')
+
 
 
 

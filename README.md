@@ -1,6 +1,8 @@
 # mcmc-utils-matlab
 A set of handy utilities and plotting functions for dealing with MCMC in Matlab. This package is under development. Feel very free to submit Issues for bug reports and feature requests. Also see the Issues for upcoming fixes and new features.
 
+
+
 ## Importing the package
 
 Make sure to set the `pathOfPackage` NOT to the `+mcmc` package itself, but it's parent folder.
@@ -30,6 +32,8 @@ variableNames={'retroflux units, $\rho$',...
 	'undulation, $\mu$'};
 ````
 
+
+
 ## `UnivariateDistribution` class
 
 A `UnivariateDistribution` object provides basic plotting and summary statistics.
@@ -49,6 +53,8 @@ uni2 = mcmc.UnivariateDistribution(samples(:,2),...
 title('plotstyle=''hist''')
 ````
 ![](img/uni.png)
+
+
 
 ## `BivariateDistribution` class
 
@@ -83,6 +89,8 @@ axis(tempAxisLims)
 ![](img/bi.png)
 
 
+
+
 ## `TriPlotSamples` class
 We can get a handy plot of all the univariate distributions, and all pairwise joint marginal distributions by using the `TriPlotSamples` class.
 
@@ -94,3 +102,72 @@ tri = mcmc.TriPlotSamples(samples,...
 ```
 
 ![](img/tri.png)
+
+
+
+## `PosteriorPrediction1D` class
+If you have a 1D function (e.g. y=mx+c) and the parameters are inferred (by MCMC estimation), then this Matlab object will help in visualising the posterior predictions for your function.
+
+You can specify any 1D function you want, and it should work for functions with any number of parameters.
+
+In many situations, it might be better to automatically generate posterior predictions in you MCMC process. But if you don't want to do that, or can't do that, then this class should be useful.
+
+First, specify a function, ideally in vectorised form.
+
+```matlab
+fh = @(x,params) bsxfun(@plus, bsxfun(@times,params(:,1), x), params(:,2));
+```
+
+Then generate some data. These will be samples from your MCMC process, but the snippet below just creates artificial data.
+
+```matlab
+% generate data
+xdata = linspace(-5,20,5);
+ydata = fh(xdata,[2 20]) + randn(size(xdata))*5;
+variableNames = {'chocolate',...
+	'happines, $\Omega$'};
+
+% generate faux samples
+nSamples = 10^5;
+chocolate = randn([nSamples 1])+20;	% intercept
+happines = randn([nSamples 1])+2;	% slope
+samples = [happines chocolate]; % samples is of size [nSamples x nParams]
+
+```
+
+Use the `PosteriorPrediction1D` class to make some plots.
+
+```matlab
+figure(4), clf
+subplot(1,3,1)
+pp1 = mcmc.PosteriorPrediction1D(fh,...
+	'xInterp',linspace(-5,20,400),...
+	'samples',samples,...
+	'xData',xdata,...
+	'yData',ydata,...
+	'ciType','examples',...
+	'variableNames', variableNames);
+title('ciType=''examples''')
+
+subplot(1,3,2)
+pp2 = mcmc.PosteriorPrediction1D(fh,...
+	'xInterp',linspace(-5,20,400),...
+	'samples',samples,...
+	'xData',xdata,...
+	'yData',ydata,...
+	'ciType','range',...
+	'variableNames', variableNames);
+title('ciType=''range''')
+
+subplot(1,3,3)
+pp3 = mcmc.PosteriorPrediction1D(fh,...
+	'xInterp',linspace(-5,20,400),...
+	'samples',samples,...
+	'xData',xdata,...
+	'yData',ydata,...
+	'ciType','probMass',...
+	'variableNames', variableNames);
+title('ciType=''probMass''')
+```
+
+![](img/postpred.png)
