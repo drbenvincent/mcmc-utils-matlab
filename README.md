@@ -107,7 +107,8 @@ We can get a handy plot of all the univariate distributions, and all pairwise jo
 figure(3), clf
 tri = mcmc.TriPlotSamples(samples,...
 	variableNames,...
-	'figSize', 15);
+	'figSize', 15,...
+	'pointEstimateType','mode');
 ```
 
 ![](img/tri.png)
