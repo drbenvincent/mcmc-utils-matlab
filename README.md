@@ -48,8 +48,6 @@ variableNames={'retroflux units, $\rho$',...
 A `UnivariateDistribution` object provides basic plotting and summary statistics.
 
 ````matlab
-figure(1), clf
-
 subplot(1,2,1)
 uni = mcmc.UnivariateDistribution(samples(:,1),...
 	'xLabel', variableNames{1});
@@ -63,14 +61,29 @@ title('plotstyle=''hist''')
 ````
 ![](img/uni.png)
 
+We can also do group-plots. If the samples we provide is a matrix (more than one column) then each column is treated as a separate distribution to plot.
 
+```matlab
+uniG1 = mcmc.UnivariateDistribution(samples,...
+	'xLabel', 'xLabel here',...
+	'plotHDI',false);
+title('plotstyle=''density''')
+
+subplot(1,2,2)
+uniG2 = mcmc.UnivariateDistribution(samples,...
+	'xLabel', 'xLabel here',...
+	'plotStyle','hist',...
+	'plotHDI',false);
+title('plotstyle=''hist''')
+```
+
+![](img/uniG.png)
 
 ## `BivariateDistribution` class
 
 A `BivariateDistribution` object also provides some plotting capabilities and calculates mean, median, and mode.
 
 ```matlab
-figure(2), clf
 subplot(1,3,1)
 bi1 = mcmc.BivariateDistribution(samples(:,1),samples(:,2),...
 	'xLabel',variableNames{1},...
@@ -104,7 +117,6 @@ axis(tempAxisLims)
 We can get a handy plot of all the univariate distributions, and all pairwise joint marginal distributions by using the `TriPlotSamples` class.
 
 ```matlab
-figure(3), clf
 tri = mcmc.TriPlotSamples(samples,...
 	variableNames,...
 	'figSize', 15,...
@@ -148,7 +160,6 @@ samples = [happines chocolate]; % samples is of size [nSamples x nParams]
 Use the `PosteriorPrediction1D` class to make some plots.
 
 ```matlab
-figure(4), clf
 subplot(1,3,1)
 pp1 = mcmc.PosteriorPrediction1D(fh,...
 	'xInterp',linspace(-5,20,400),...
