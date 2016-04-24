@@ -77,7 +77,7 @@ uniG2 = mcmc.UnivariateDistribution(samples,...
 title('plotstyle=''hist''')
 ```
 
-![](img/uniG.png)
+![](img/unig.png)
 
 ## `BivariateDistribution` class
 
