@@ -14,6 +14,7 @@ classdef UnivariateDistribution < handle
 
 	properties (Access = private)
 		samples
+		priorSamples, priorCol
 		XRANGE
 		xi
 		density
@@ -31,12 +32,12 @@ classdef UnivariateDistribution < handle
 			p = inputParser;
 			p.FunctionName = mfilename;
 			p.addRequired('samples',@ismatrix);
-			%p.addParameter('priorSamples',[],@isvector);
+			p.addParameter('priorSamples',[],@isvector);
 			p.addParameter('xLabel','',@isstr);
 			p.addParameter('plotStyle','kde',@(x)any(strcmp(x,{'hist','kde'})))
 			p.addParameter('shouldPlot',true,@islogical);
 			p.addParameter('killYAxis',true,@islogical);
-			%p.addParameter('priorCol',[0.8 0.8 0.8],@isvector);
+			p.addParameter('priorCol',[0.8 0.8 0.8],@isvector);
 			p.addParameter('col',[0.6 0.6 0.6],@isvector);
 			p.addParameter('pointEstimateType','mode', @(x)any(strcmp(x,{'mean','median','mode'})));
 			p.addParameter('shouldPlotPointEstimate',false,@islogical);
@@ -77,10 +78,13 @@ classdef UnivariateDistribution < handle
 
 		function calculateDensityAndPointEstimates(obj)
 			obj.xi = linspace( min(obj.samples(:)), max(obj.samples(:)), 500);
+			obj.xi = [obj.xi(1) obj.xi obj.xi(end)]; % fix to avoid plotting artifacts
 			for n=1:obj.N
 				[obj.density(:,n), ~] = ksdensity(obj.samples(:,n), obj.xi);
 				[~,ind] = max(obj.density(:,n));
 				obj.mode(n) = obj.xi( ind );
+				
+				obj.density([1,end],n)=0; % fix to avoid plotting artifacts
 			end
 		end
 
