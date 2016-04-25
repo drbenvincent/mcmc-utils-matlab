@@ -64,6 +64,7 @@ title('plotstyle=''hist''')
 We can also do group-plots. If the samples we provide is a matrix (more than one column) then each column is treated as a separate distribution to plot.
 
 ```matlab
+subplot(1,2,1)
 uniG1 = mcmc.UnivariateDistribution(samples,...
 	'xLabel', 'xLabel here',...
 	'plotHDI',false);
@@ -118,6 +119,10 @@ axis(tempAxisLims)
 You can also do group plots for bivariate distributions. Each column of the samples provided is interpreted and plotted as a separate distribution.
 
 ```matlab
+figure
+% plot all combinations of bivariate
+xsamples = [samples(:,1) samples(:,2) samples(:,1)];
+ysamples = [samples(:,2) samples(:,3) samples(:,3)];
 biG1 = mcmc.BivariateDistribution(xsamples,ysamples,...
 	'xLabel','xLabel here',...
 	'yLabel','yLabel here',...
