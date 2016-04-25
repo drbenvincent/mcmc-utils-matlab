@@ -52,7 +52,7 @@ classdef PosteriorPrediction1D < handle
 
 			% predefine handles for point estimates
 			obj.h.hPointEst=[];
-			
+
 			% Calculate point estimate
 			warning('DEAL WITH SPECIFIED POINT ESTIMATE TYPE')
 			obj.pointEstimate = mean(obj.samples);
@@ -66,6 +66,7 @@ classdef PosteriorPrediction1D < handle
 				case{'probMass'}
 					obj.plotProbMass();
 			end
+			axis tight
 			obj.plotPointEstimate();
 			obj.plotData();
 		end
