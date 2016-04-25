@@ -80,6 +80,18 @@ bi3 = mcmc.BivariateDistribution(samples(:,1),samples(:,2),...
 title('plotstyle=''contour''')
 axis(tempAxisLims)
 
+
+% BIVARIATE GROUP
+figure
+% plot all combinations of bivariate
+xsamples = [samples(:,1) samples(:,2) samples(:,1)];
+ysamples = [samples(:,2) samples(:,3) samples(:,3)];
+biG1 = mcmc.BivariateDistribution(xsamples,ysamples,...
+	'xLabel','xLabel here',...
+	'yLabel','yLabel here',...
+	'probMass',0.95);
+
+
 %% Triplot / Corner plot
 % For 2 parameters or more, a corner plot is useful to look at all the
 % univariate and all combinations of bivariate marginal distributions.

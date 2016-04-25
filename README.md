@@ -79,6 +79,9 @@ title('plotstyle=''hist''')
 
 ![](img/unig.png)
 
+
+
+
 ## `BivariateDistribution` class
 
 A `BivariateDistribution` object also provides some plotting capabilities and calculates mean, median, and mode.
@@ -111,6 +114,18 @@ axis(tempAxisLims)
 ![](img/bi.png)
 
 
+
+You can also do group plots for bivariate distributions. Each column of the samples provided is interpreted and plotted as a separate distribution.
+
+```matlab
+biG1 = mcmc.BivariateDistribution(xsamples,ysamples,...
+	'xLabel','xLabel here',...
+	'yLabel','yLabel here',...
+	'plotStyle','contour',...
+	'probMass',0.95);
+```
+
+![](img/big.png)
 
 
 ## `TriPlotSamples` class
