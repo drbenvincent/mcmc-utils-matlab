@@ -20,6 +20,7 @@ classdef UnivariateDistribution < handle
 		density
 		shouldPlot
 		killYAxis
+		patchProperties
 	end
 
 	properties (GetAccess = public, SetAccess = protected)
@@ -42,6 +43,7 @@ classdef UnivariateDistribution < handle
 			p.addParameter('pointEstimateType','mode', @(x)any(strcmp(x,{'mean','median','mode'})));
 			p.addParameter('shouldPlotPointEstimate',false,@islogical);
 			p.addParameter('FaceAlpha',0.2,@isscalar);
+			p.addParameter('patchProperties',{'FaceAlpha',0.8},@iscell);
 			p.addParameter('plotHDI',true,@islogical);
 			p.parse(posteriorSamples, varargin{:});
 			% add p.Results fields into obj
@@ -83,7 +85,7 @@ classdef UnivariateDistribution < handle
 				[obj.density(:,n), ~] = ksdensity(obj.samples(:,n), obj.xi);
 				[~,ind] = max(obj.density(:,n));
 				obj.mode(n) = obj.xi( ind );
-				
+
 				obj.density([1,end],n)=0; % fix to avoid plotting artifacts
 			end
 		end
@@ -110,7 +112,10 @@ classdef UnivariateDistribution < handle
 					obj.col,...
 					'EdgeColor','none',...
 					'FaceAlpha',obj.FaceAlpha);
+				% apply plot options to patch
+				set(h(n), obj.patchProperties{:});
 			end
+
 		end
 
 
