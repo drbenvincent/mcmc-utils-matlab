@@ -227,6 +227,8 @@ end
 ah=gca; ah.Layer='top';
 axis square
 box off
-xlabel(obj.variableNames{1},'Interpreter','latex')
-ylabel(obj.variableNames{2},'Interpreter','latex')
+if ~isempty(obj.variableNames)
+	xlabel(obj.variableNames{1},'Interpreter','latex')
+	ylabel(obj.variableNames{2},'Interpreter','latex')
+end
 end
