@@ -41,6 +41,7 @@ classdef PosteriorPrediction1D < handle
 			p.addParameter('shouldPlotData',true,@islogical);
 			p.addParameter('xData',[],@isvector);
 			p.addParameter('yData',[],@isvector);
+			p.addParameter('pointEstimate',[],@isvector);% if we have precomputed point estimate due to numerical problems (eg with log transformed data etc).
 			p.parse(fh, varargin{:});
 			% add p.Results fields into obj
 			fields = fieldnames(p.Results);
@@ -53,9 +54,12 @@ classdef PosteriorPrediction1D < handle
 			% predefine handles for point estimates
 			obj.h.hPointEst=[];
 
-			% Calculate point estimate
-			warning('DEAL WITH SPECIFIED POINT ESTIMATE TYPE')
-			obj.pointEstimate = mean(obj.samples);
+			if isempty(p.Results.pointEstimate)
+				temp = mcmc.UnivariateDistribution(obj.samples,...
+					'shouldPlot',false,...
+					'pointEstimateType',p.Results.pointEstimateType);
+				obj.pointEstimate = temp.(p.Results.pointEstimateType);
+			end
 
 			% High-level plotting commands
 			switch obj.ciType

@@ -79,7 +79,7 @@ classdef UnivariateDistribution < handle
 		end
 
 		function calculateDensityAndPointEstimates(obj)
-			obj.xi = linspace( min(obj.samples(:)), max(obj.samples(:)), 500);
+			obj.xi = linspace( min(obj.samples(:)), max(obj.samples(:)), 1000);
 			obj.xi = [obj.xi(1) obj.xi obj.xi(end)]; % fix to avoid plotting artifacts
 			for n=1:obj.N
 				[obj.density(:,n), ~] = ksdensity(obj.samples(:,n), obj.xi);
