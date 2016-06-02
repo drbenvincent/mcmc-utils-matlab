@@ -138,8 +138,14 @@ classdef PosteriorPrediction1D < handle
 			ExamplesToPlot = shuffledExamples([1:obj.nExamples]);
 			% Evaluate the function just for these examples
 			obj.evaluateFunction(ExamplesToPlot);
-			hExamples = plot(obj.xInterp, obj.Y,'-',...
-				'Color',[0.5 0.5 0.5 0.1]);
+            try
+                hExamples = plot(obj.xInterp, obj.Y,'-',...
+                    'Color',[0.5 0.5 0.5 0.1]);
+            catch % backward compatability
+                hExamples = plot(obj.xInterp, obj.Y,'-',...
+                    'Color',[0.5 0.5 0.5]);
+            end
+
 % 			hExamples = plot(obj.xInterp, obj.Y(:,ExamplesToPlot),'k-');
 			obj.h.Axis		= gca;
 			obj.h.hExamples = hExamples;

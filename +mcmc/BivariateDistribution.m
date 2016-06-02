@@ -134,12 +134,16 @@ classdef BivariateDistribution < handle
 			if obj.N>1
 				error('This plot style is not supported for multiple distributions')
 			end
-			h = histogram2(obj.xSamples, obj.ySamples,...
-				'DisplayStyle','tile',...
-				'ShowEmptyBins','on',...
-				'EdgeColor','none');
-			axis xy
-			colormap(flipud(gray))
+            try
+    			h = histogram2(obj.xSamples, obj.ySamples,...
+    				'DisplayStyle','tile',...
+    				'ShowEmptyBins','on',...
+    				'EdgeColor','none');
+            catch % backward compatability
+                % currently just do nothing
+            end
+            axis xy
+            colormap(flipud(gray))
 		end
 
 
