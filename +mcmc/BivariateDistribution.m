@@ -140,7 +140,13 @@ classdef BivariateDistribution < handle
     				'ShowEmptyBins','on',...
     				'EdgeColor','none');
             catch % backward compatability
-                % currently just do nothing
+                x_vec = linspace(min(obj.xSamples),max(obj.xSamples),30);
+                y_vec = linspace(min(obj.ySamples),max(obj.ySamples),30);
+                [F,X,Y] = mcmc.hist2Djoint(obj.xSamples,...
+                 obj.ySamples,...
+                     x_vec,...
+                     y_vec);
+                imagesc(x_vec, y_vec, F)
             end
             axis xy
             colormap(flipud(gray))
