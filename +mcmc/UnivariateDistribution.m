@@ -6,6 +6,7 @@ classdef UnivariateDistribution < handle
 		pointEstimateType
 		shouldPlotPointEstimate
 		col
+		HDI
 		plotHDI
 		plotStyle
 		N
@@ -60,7 +61,7 @@ classdef UnivariateDistribution < handle
 			obj.mean = mean(obj.samples);
 			obj.median = median(obj.samples);
 			obj.calculateDensityAndPointEstimates();
-
+			obj.HDI = mcmc.HDIofSamples(obj.samples, 0.95);
 			if p.Results.shouldPlot
 				obj.plot();
 			end
