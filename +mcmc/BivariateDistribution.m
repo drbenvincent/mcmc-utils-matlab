@@ -55,7 +55,7 @@ classdef BivariateDistribution < handle
 			% Calculate stats upon construction
 			obj.mean = [mean(obj.xSamples); mean(obj.ySamples)];
 			obj.median = [median(obj.xSamples); median(obj.ySamples)];
-			obj.calculateDensityAndPointEstimates('kde2d',500,500)
+			obj.calculateDensityAndPointEstimates('kde2d')
 
 			if p.Results.shouldPlot
 				obj.plot()
@@ -63,7 +63,7 @@ classdef BivariateDistribution < handle
 
 		end
 
-		function calculateDensityAndPointEstimates(obj, method, XN, YN)
+		function calculateDensityAndPointEstimates(obj, method)
 			%% Compute the bivariate density
 			switch method
 				case{'kde2d'}
@@ -71,7 +71,7 @@ classdef BivariateDistribution < handle
 						MIN_XY = [obj.XRANGE(1) obj.YRANGE(1)];
 						MAX_XY = [obj.XRANGE(2) obj.YRANGE(2)];
 
-						[~,obj.density(:,:,n),X,Y]=mcmc.kde2d.kde2d([obj.xSamples(:,n) obj.ySamples(:,n)],288*2,MIN_XY,MAX_XY);
+						[~,obj.density(:,:,n),X,Y]=mcmc.kde2d.kde2d([obj.xSamples(:,n) obj.ySamples(:,n)], 2^8, MIN_XY, MAX_XY);
 
 						bx = X(1,:);
 						by = Y(:,1);
@@ -83,7 +83,8 @@ classdef BivariateDistribution < handle
 						obj.mode(:,n) = [modex modey];
 					end
 
-				case{'ksdensity'} % built in matlab function
+				case{'ksdensity'} % built in matlab function: SLOW
+					XN = 100; YN = 100;
 					for n=1:obj.N
 						bx = linspace(obj.XRANGE(1), obj.XRANGE(2), XN);
 						by = linspace(obj.YRANGE(1), obj.YRANGE(2), YN);
@@ -91,10 +92,10 @@ classdef BivariateDistribution < handle
 						%xi = [X(:) Y(:)];
 
 						[f,~] = ksdensity([obj.xSamples(:,n) obj.ySamples(:,n)], [X(:) Y(:)]); % <----- SLOW
-						obj.density(:,n) = reshape(f,size(X));
+						obj.density(:,:,n) = reshape(f,size(X));
 
 						% Find the mode
-						[i,j]	= argmax2(obj.density(:,n));
+						[i,j]	= argmax2(obj.density(:,:,n));
 						modex	= bx(j);
 						modey	= by(i);
 						obj.mode(:,n) = [modex modey];
@@ -142,7 +143,7 @@ classdef BivariateDistribution < handle
             catch % backward compatability
                 x_vec = linspace(min(obj.xSamples),max(obj.xSamples),30);
                 y_vec = linspace(min(obj.ySamples),max(obj.ySamples),30);
-                [F,X,Y] = mcmc.hist2Djoint(obj.xSamples,...
+                [F,~,~] = mcmc.hist2Djoint(obj.xSamples,...
                  obj.ySamples,...
                      x_vec,...
                      y_vec);
