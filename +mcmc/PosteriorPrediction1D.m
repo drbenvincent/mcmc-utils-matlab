@@ -62,17 +62,19 @@ classdef PosteriorPrediction1D < handle
 			end
 
 			% High-level plotting commands
-			switch obj.ciType
-				case{'examples'}
-					obj.plotExamples();
-				case{'range'}
-					obj.plotCI();
-				case{'probMass'}
-					obj.plotProbMass();
+			if p.Results.shouldPlotData
+				switch obj.ciType
+					case{'examples'}
+						obj.plotExamples();
+					case{'range'}
+						obj.plotCI();
+					case{'probMass'}
+						obj.plotProbMass();
+				end
+				axis tight
+				obj.plotPointEstimate();
+				obj.plotData();
 			end
-			axis tight
-			obj.plotPointEstimate();
-			obj.plotData();
 		end
 
 		function evaluateFunction(obj,ExamplesToPlot)
