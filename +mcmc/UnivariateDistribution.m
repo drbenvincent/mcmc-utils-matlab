@@ -57,6 +57,10 @@ classdef UnivariateDistribution < handle
 			% obj.XRANGE = [min(posteriorSamples) max(posteriorSamples)];
 			% obj.YRANGE = [min(priorSamples) max(priorSamples)];
 
+			if isempty(posteriorSamples) || any(isnan(posteriorSamples(:)))
+				warning('invalid samples passed into function')
+				return
+			end
 			% Calculate stats upon construction
 			obj.mean = mean(obj.samples);
 			obj.median = median(obj.samples);

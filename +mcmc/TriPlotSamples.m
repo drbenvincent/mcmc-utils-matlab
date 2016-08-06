@@ -64,6 +64,7 @@ classdef TriPlotSamples < handle
 		end
 
 		function plot(obj)
+			% TODO: REFACTOR THIS METHOD
 			for row = 1:obj.ND
 				for col = 1:obj.ND
 					if col>row
