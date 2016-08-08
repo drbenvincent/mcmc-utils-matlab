@@ -143,21 +143,38 @@ classdef TriPlotSamples < handle
 			for row = 1:obj.ND
 				for col = 1:obj.ND
 					if col>obj.ND+1-row, break, end % TODO: simplify conditional, or replace with method
+% 					% absolute positioning
+% 					set(obj.ax(obj.ND+1-row,col),...
+% 						'Position', obj.calcPositionVectorAbsolute(row,col),...
+% 						'Units','centimeters')
+					% normalised 
 					set(obj.ax(obj.ND+1-row,col),...
-						'Units','centimeters')
-					set(obj.ax(obj.ND+1-row,col),...
-						'Position', obj.calcPositionVector(row,col))
+						'Position', obj.calcPositionVectorNormalised(row,col),...
+						'Units','normalized')
 				end
 			end
 		end
+		
+		function pos = calcPositionVectorNormalised(obj, row, col)
+			borderSize = 0.1; % user defined
+			actionArea = 1-(2*borderSize);
+			subplotSize = actionArea / obj.ND;
 
-		function pos = calcPositionVector(obj, row, col)
-				pos = [obj.borderSize + obj.subplotSize*(col-1)...
-					obj.borderSize + obj.subplotSize*(row-1)...
-					obj.subplotSize...
-					obj.subplotSize];
+			left = borderSize + subplotSize*(col-1);
+			bottom = borderSize + subplotSize*(row-1);
+			width = subplotSize;
+			height = subplotSize;
+			
+			pos = [left, bottom, width, height];
 		end
-
+		
+% 		function pos = calcPositionVectorAbsolute(obj, row, col)
+% 			pos = [obj.borderSize + obj.subplotSize*(col-1)...
+% 				obj.borderSize + obj.subplotSize*(row-1)...
+% 				obj.subplotSize...
+% 				obj.subplotSize];
+% 		end
+		
 		function plotUnivariateTrueValue(obj)
 			if ~isempty(obj.trueVals)
 				ylims=get(gca,'Ylim');

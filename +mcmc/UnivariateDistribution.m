@@ -156,7 +156,7 @@ classdef UnivariateDistribution < handle
 
 			box off
 			axis tight
-			axis square
+			%axis square
 			set(gca,'TickDir','out')
 			set(gca,'Layer','top');
 			xlabel(obj.xLabel, 'interpreter', 'latex')

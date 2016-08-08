@@ -287,7 +287,7 @@ classdef BivariateDistribution < handle
 			colormap(gca, flipud(gray));
 			xlabel(obj.xLabel,'Interpreter','latex')
 			ylabel(obj.yLabel,'Interpreter','latex')
-			axis square
+			%axis square
 			hold on
 			box off
 			set(gca,'Layer','top');
