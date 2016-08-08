@@ -202,7 +202,7 @@ classdef BivariateDistribution < handle
 				obj.ySamples([1:nSamples_to_plot]),...
 				'.');
 			h.Color = [0.8 0.8 0.8];
-			h.MarkerSize = 3;
+			h.MarkerSize = 4;
 			axis xy
 		end
 		
