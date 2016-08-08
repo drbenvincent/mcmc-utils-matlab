@@ -16,6 +16,7 @@ classdef PosteriorPrediction1D < handle
 		shouldPlotData
 		xData, yData
 		ciWidth
+		title
 		h % a structure containing handles to figure and plot objects
 	end
 
@@ -41,6 +42,7 @@ classdef PosteriorPrediction1D < handle
 			p.addParameter('shouldPlotData',true,@islogical);
 			p.addParameter('xData',[],@isvector);
 			p.addParameter('yData',[],@isvector);
+			p.addParameter('title','',@ischar);
 			p.addParameter('pointEstimate',[],@isvector);% if we have precomputed point estimate due to numerical problems (eg with log transformed data etc).
 			p.parse(fh, varargin{:});
 			% add p.Results fields into obj
@@ -74,6 +76,7 @@ classdef PosteriorPrediction1D < handle
 				axis tight
 				obj.plotPointEstimate();
 				obj.plotData();
+				if ~isempty(obj.title), title(obj.title), end
 			end
 		end
 
