@@ -14,6 +14,7 @@ classdef BivariateDistribution < handle
 		probMass
 		N
 		patchProperties
+		axisSquare
 	end
 
 	properties (GetAccess = public, SetAccess = protected)
@@ -35,6 +36,7 @@ classdef BivariateDistribution < handle
 			p.addParameter('plotStyle','kde',@(x)any(strcmp(x,{'hist','kde','contour', 'scatter'})))
 			p.addParameter('pointEstimateType','mean', @(x)any(strcmp(x,{'mean','median','mode'})));
 			p.addParameter('patchProperties',{'FaceAlpha',0.8},@iscell);
+			p.addParameter('axisSquare',false,@islogical);
 			p.parse(xSamples, ySamples, varargin{:});
 			% add p.Results fields into obj
 			fields = fieldnames(p.Results);
@@ -287,7 +289,7 @@ classdef BivariateDistribution < handle
 			colormap(gca, flipud(gray));
 			xlabel(obj.xLabel,'Interpreter','latex')
 			ylabel(obj.yLabel,'Interpreter','latex')
-			%axis square
+			if obj.axisSquare, axis square, end
 			hold on
 			box off
 			set(gca,'Layer','top');

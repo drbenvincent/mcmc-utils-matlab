@@ -11,6 +11,7 @@ classdef UnivariateDistribution < handle
 		plotStyle
 		N
 		FaceAlpha
+		axisSquare
 	end
 
 	properties (Access = private)
@@ -46,6 +47,7 @@ classdef UnivariateDistribution < handle
 			p.addParameter('FaceAlpha',0.2,@isscalar);
 			p.addParameter('patchProperties',{'FaceAlpha',0.8},@iscell);
 			p.addParameter('plotHDI',true,@islogical);
+			p.addParameter('axisSquare',false,@islogical);
 			p.parse(posteriorSamples, varargin{:});
 			% add p.Results fields into obj
 			fields = fieldnames(p.Results);
@@ -156,7 +158,7 @@ classdef UnivariateDistribution < handle
 
 			box off
 			axis tight
-			%axis square
+			if obj.axisSquare, axis square, end
 			set(gca,'TickDir','out')
 			set(gca,'Layer','top');
 			xlabel(obj.xLabel, 'interpreter', 'latex')
