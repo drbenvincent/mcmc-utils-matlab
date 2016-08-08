@@ -3,6 +3,8 @@ A set of handy utilities and plotting functions for dealing with MCMC in Matlab.
 
 **THIS IS ALPHA CODE (NOT EVEN PRE-RELEASE) SO IS SUBJECT TO CHANGES**
 
+[![Issue Stats](http://issuestats.com/github/drbenvincent/mcmc-utils-matlab/badge/issue?style=flat-square)](http://issuestats.com/github/drbenvincent/mcmc-utils-matlab)
+
 ## Installation
 
 In Matlab, navigate to the install location, then type this into the Matlab command window:
