@@ -32,7 +32,7 @@ classdef BivariateDistribution < handle
 			p.addParameter('probMass',0.95,@isscalar); % for contour plot
 			p.addParameter('shouldPlot',true,@islogical);
 			p.addParameter('gridOn',true,@islogical);
-			p.addParameter('plotStyle','kde',@(x)any(strcmp(x,{'hist','kde','contour'})))
+			p.addParameter('plotStyle','kde',@(x)any(strcmp(x,{'hist','kde','contour', 'scatter'})))
 			p.addParameter('pointEstimateType','mean', @(x)any(strcmp(x,{'mean','median','mode'})));
 			p.addParameter('patchProperties',{'FaceAlpha',0.8},@iscell);
 			p.parse(xSamples, ySamples, varargin{:});
@@ -139,6 +139,9 @@ classdef BivariateDistribution < handle
 
 		end
 
+		
+		% PLOT FUNCTIONS ==================================================
+		
 		function plot(obj)
 			switch obj.plotStyle
 				case{'hist'}
@@ -147,6 +150,10 @@ classdef BivariateDistribution < handle
 					obj.plotDensity();
 				case{'contour'}
 					obj.plotContour();
+				case{'scatter'}
+					obj.plotScatter();
+				otherwise
+					error('unrecognised plotStyle')
 			end
 			obj.formatAxes();
 			obj.plotPointEstimate();
@@ -184,6 +191,21 @@ classdef BivariateDistribution < handle
             colormap(flipud(gray))
 		end
 
+		function plotScatter(obj)
+			if obj.N>1
+				error('This plot style is not supported for multiple distributions')
+			end
+			
+			nSamples_to_plot = min(numel(obj.xSamples), 1000);
+			% TODO shuffle order of smaples plotted
+			h = plot(obj.xSamples([1:nSamples_to_plot]),...
+				obj.ySamples([1:nSamples_to_plot]),...
+				'.');
+			h.Color = [0.8 0.8 0.8];
+			h.MarkerSize = 3;
+			axis xy
+		end
+		
 
 		function plotContour(obj, varargin)
 			assert(obj.probMass>0 && obj.probMass<1,...
