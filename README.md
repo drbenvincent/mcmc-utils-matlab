@@ -1,6 +1,7 @@
 # mcmc-utils-matlab
 A set of handy utilities and plotting functions for dealing with MCMC in Matlab. This package is under development. Feel very free to submit Issues for bug reports and feature requests. Also see the Issues for upcoming fixes and new features.
 
+**THIS IS ALPHA CODE (NOT EVEN PRE-RELEASE) SO IS SUBJECT TO CHANGES**
 
 ## Installation
 

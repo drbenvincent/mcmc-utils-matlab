@@ -1,7 +1,7 @@
 % demo
 
 try
-	pathOfPackage = '~/git-local/mcmc-utils-matlab';
+	pathOfPackage = '~/Documents/MATLAB/mcmc-utils-matlab';
 	addpath(pathOfPackage)
 catch
 	error('Set ''pathToPackage'' to parent of the +mcmc package')
