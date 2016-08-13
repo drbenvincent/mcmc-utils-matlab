@@ -71,6 +71,10 @@ classdef UnivariateDistribution < handle
 			end
 
 		end
+		
+		function [pointEstimate] = getPointEstimate(obj)
+			pointEstimate = obj.(obj.pointEstimateType);
+		end
 
 		function plot(obj)
 			switch obj.plotStyle

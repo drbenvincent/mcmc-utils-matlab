@@ -60,7 +60,8 @@ classdef PosteriorPrediction1D < handle
 				temp = mcmc.UnivariateDistribution(obj.samples,...
 					'shouldPlot',false,...
 					'pointEstimateType',p.Results.pointEstimateType);
-				obj.pointEstimate = temp.(p.Results.pointEstimateType);
+				obj.pointEstimate = temp.getPointEstimate();
+				%obj.pointEstimate = temp.(p.Results.pointEstimateType);
 			end
 
 			% High-level plotting commands
