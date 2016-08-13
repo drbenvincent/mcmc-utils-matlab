@@ -62,7 +62,13 @@ classdef TriPlotSamples < handle
 				'Position',[1 1 obj.figSize obj.figSize])
 			drawnow
 		end
+		
+		
+		function value = get.subplotSize(obj)
+			value = (obj.figSize-(2*obj.borderSize))/obj.ND;
+		end
 
+		
 		function plot(obj)
 			% TODO: REFACTOR THIS METHOD
 			for row = 1:obj.ND
@@ -101,6 +107,9 @@ classdef TriPlotSamples < handle
 			end
 		end
 
+	end
+	
+	methods (Access = private)
 
 		function addLabels(obj)
 			for row = 1:obj.ND
@@ -198,10 +207,6 @@ classdef TriPlotSamples < handle
 
 		function bool = shouldAddXLabel(obj, row,col)
 			bool = row==obj.ND && col<=obj.ND;
-		end
-
-		function value = get.subplotSize(obj)
-			value = (obj.figSize-(2*obj.borderSize))/obj.ND;
 		end
 
 	end

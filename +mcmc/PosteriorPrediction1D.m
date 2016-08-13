@@ -80,6 +80,10 @@ classdef PosteriorPrediction1D < handle
 				if ~isempty(obj.title), title(obj.title), end
 			end
 		end
+		
+	end
+	
+	methods (Access = private)
 
 		function evaluateFunction(obj,ExamplesToPlot)
 			% Evaluate the 1D function for the x-values specified and for

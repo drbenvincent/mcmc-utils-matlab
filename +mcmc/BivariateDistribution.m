@@ -74,6 +74,27 @@ classdef BivariateDistribution < handle
 			end
 
 		end
+		
+		function plot(obj)
+			switch obj.plotStyle
+				case{'hist'}
+					obj.plotHist();
+				case{'kde'}
+					obj.plotDensity();
+				case{'contour'}
+					obj.plotContour();
+				case{'scatter'}
+					obj.plotScatter();
+				otherwise
+					error('unrecognised plotStyle')
+			end
+			obj.formatAxes();
+			obj.plotPointEstimate();
+		end
+			
+	end
+	
+	methods (Access = private)
 
 		function calculateDensityAndPointEstimates(obj, method)
 			% TODO: REFACTOR THIS METHOD
@@ -143,25 +164,6 @@ classdef BivariateDistribution < handle
 
 
 		% PLOT FUNCTIONS ==================================================
-
-		function plot(obj)
-			switch obj.plotStyle
-				case{'hist'}
-					obj.plotHist();
-				case{'kde'}
-					obj.plotDensity();
-				case{'contour'}
-					obj.plotContour();
-				case{'scatter'}
-					obj.plotScatter();
-				otherwise
-					error('unrecognised plotStyle')
-			end
-			obj.formatAxes();
-			obj.plotPointEstimate();
-
-		end
-
 
 		function plotDensity(obj)
 			if obj.N>1
