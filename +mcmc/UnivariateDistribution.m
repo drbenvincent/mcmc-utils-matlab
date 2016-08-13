@@ -1,6 +1,15 @@
 classdef UnivariateDistribution < handle
 
-	properties (Access = public)
+	properties (Access = private)
+		samples
+		priorSamples, priorCol
+		XRANGE
+		xi
+		density
+		shouldPlot
+		killYAxis
+		patchProperties
+		
 		xLabel,
 		mean, median, mode
 		pointEstimateType
@@ -12,17 +21,6 @@ classdef UnivariateDistribution < handle
 		N
 		FaceAlpha
 		axisSquare
-	end
-
-	properties (Access = private)
-		samples
-		priorSamples, priorCol
-		XRANGE
-		xi
-		density
-		shouldPlot
-		killYAxis
-		patchProperties
 	end
 
 	properties (GetAccess = public, SetAccess = protected)

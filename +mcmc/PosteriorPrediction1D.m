@@ -1,7 +1,7 @@
 classdef PosteriorPrediction1D < handle
 	%% PosteriorPrediction1D
 
-	properties
+	properties (Access = private)
 		variableNames
 		fh
 		xInterp

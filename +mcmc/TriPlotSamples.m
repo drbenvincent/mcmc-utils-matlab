@@ -1,6 +1,6 @@
 classdef TriPlotSamples < handle
 
-	properties
+	properties (Access = private)
 		COLS
 		ROWS
 		ND

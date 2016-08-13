@@ -1,6 +1,6 @@
 classdef BivariateDistribution < handle
 
-	properties (Access = public)
+	properties (Access = private)
 		xSamples, ySamples
 		xLabel, yLabel
 		XRANGE, YRANGE
