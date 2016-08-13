@@ -85,11 +85,18 @@ classdef UnivariateDistribution < handle
 			end
 			obj.formatAxes();
 			obj.plotPointEstimate();
+			obj.panOptions();
 		end
 
 	end
 	
 	methods (Access = private)
+		
+		function panOptions(obj)
+			ax = gca;
+			h = pan;
+			setAxesPanMotion(h,ax,'horizontal');
+		end
 		
 		function calculateDensityAndPointEstimates(obj)
 			obj.xi = linspace( min(obj.samples(:)), max(obj.samples(:)), 1000);
