@@ -52,8 +52,8 @@ classdef BivariateDistribution < handle
 				warning('invalid samples passed into function')
 				return
 			end
-			
-						
+
+
 			assert(size(xSamples,2)==size(ySamples,2));
 			obj.N = size(xSamples,2);
 			if obj.N>1 && ~strcmp(obj.plotStyle,'contour')
@@ -77,73 +77,73 @@ classdef BivariateDistribution < handle
 
 		function calculateDensityAndPointEstimates(obj, method)
 			% TODO: REFACTOR THIS METHOD
-			
+
 			%% Compute the bivariate density
 			switch method
 				case{'kde2d'}
 					for n=1:obj.N
-						
+
 						% NaN check
 						if any(isnan(obj.xSamples(:,n)))
 							warning('NaN''s detected')
 							continue
 						end
-						
+
 						MIN_XY = [obj.XRANGE(1) obj.YRANGE(1)];
 						MAX_XY = [obj.XRANGE(2) obj.YRANGE(2)];
-						
+
 						[~,obj.density(:,:,n),X,Y]=mcmc.kde2d.kde2d([obj.xSamples(:,n) obj.ySamples(:,n)], 2^8, MIN_XY, MAX_XY);
-						
+
 						bx = X(1,:);
 						by = Y(:,1);
-						
+
 						% Find the mode
 						[i,j]	= mcmc.argmax2(obj.density(:,:,n)');
 						modex	= bx(i);
 						modey	= by(j);
 						obj.mode(:,n) = [modex modey];
-						
+
 						obj.xi = bx(:);
 						obj.yi = by(:);
 					end
-					
+
 				case{'ksdensity'} % built in matlab function: SLOW
 					XN = 100; YN = 100;
 					for n=1:obj.N
-						
+
 						% NaN check
 						if any(isnan(obj.xSamples(:,n)))
 							warning('NaN''s detected')
 							continue
 						end
-						
+
 						bx = linspace(obj.XRANGE(1), obj.XRANGE(2), XN);
 						by = linspace(obj.YRANGE(1), obj.YRANGE(2), YN);
 						[X,Y] = meshgrid(bx, by);
 						%xi = [X(:) Y(:)];
-						
+
 						[f,~] = ksdensity([obj.xSamples(:,n) obj.ySamples(:,n)], [X(:) Y(:)]); % <----- SLOW
 						obj.density(:,:,n) = reshape(f,size(X));
-						
+
 						% Find the mode
 						[i,j]	= argmax2(obj.density(:,:,n));
 						modex	= bx(j);
 						modey	= by(i);
 						obj.mode(:,n) = [modex modey];
-						
+
 						obj.xi = bx(:);
 						obj.yi = by(:);
 					end
-					
+
 			end
 
 
 
 		end
 
-		
+
 		% PLOT FUNCTIONS ==================================================
-		
+
 		function plot(obj)
 			switch obj.plotStyle
 				case{'hist'}
@@ -175,29 +175,30 @@ classdef BivariateDistribution < handle
 			if obj.N>1
 				error('This plot style is not supported for multiple distributions')
 			end
-            try
-    			h = histogram2(obj.xSamples, obj.ySamples,...
-    				'DisplayStyle','tile',...
-    				'ShowEmptyBins','on',...
-    				'EdgeColor','none');
-            catch % backward compatability
-                x_vec = linspace(min(obj.xSamples),max(obj.xSamples),30);
-                y_vec = linspace(min(obj.ySamples),max(obj.ySamples),30);
-                [F,~,~] = mcmc.hist2Djoint(obj.xSamples,...
-                 obj.ySamples,...
-                     x_vec,...
-                     y_vec);
-                imagesc(x_vec, y_vec, F)
-            end
-            axis xy
-            colormap(flipud(gray))
+			try
+				h = histogram2(obj.xSamples, obj.ySamples,...
+					'DisplayStyle','tile',...
+					'ShowEmptyBins','on',...
+					'EdgeColor','none',...
+					'BinMethod','fd');
+			catch % backward compatability
+				x_vec = linspace(min(obj.xSamples),max(obj.xSamples),30);
+				y_vec = linspace(min(obj.ySamples),max(obj.ySamples),30);
+				[F,~,~] = mcmc.hist2Djoint(obj.xSamples,...
+					obj.ySamples,...
+					x_vec,...
+					y_vec);
+				imagesc(x_vec, y_vec, F)
+			end
+			axis xy
+			colormap(flipud(gray))
 		end
 
 		function plotScatter(obj)
 			if obj.N>1
 				error('This plot style is not supported for multiple distributions')
 			end
-			
+
 			nSamples_to_plot = min(numel(obj.xSamples), 1000);
 			% TODO shuffle order of smaples plotted
 			h = plot(obj.xSamples([1:nSamples_to_plot]),...
@@ -207,7 +208,7 @@ classdef BivariateDistribution < handle
 			h.MarkerSize = 4;
 			axis xy
 		end
-		
+
 
 		function plotContour(obj, varargin)
 			assert(obj.probMass>0 && obj.probMass<1,...
