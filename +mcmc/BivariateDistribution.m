@@ -1,12 +1,15 @@
 classdef BivariateDistribution < handle
 
+	properties 
+		mean, median, mode
+	end
+	
 	properties (Access = private)
 		xSamples, ySamples
 		xLabel, yLabel
 		XRANGE, YRANGE
 		xi, yi
 		density
-		mean, median, mode
 		pointEstimateType
 		shouldPlot
 		plotStyle
