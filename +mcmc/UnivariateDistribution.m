@@ -1,5 +1,9 @@
 classdef UnivariateDistribution < handle
 
+	properties
+		mean, median, mode
+	end
+
 	properties (Access = private)
 		samples
 		priorSamples, priorCol
@@ -11,7 +15,7 @@ classdef UnivariateDistribution < handle
 		patchProperties
 		
 		xLabel,
-		mean, median, mode
+		
 		pointEstimateType
 		shouldPlotPointEstimate
 		col
